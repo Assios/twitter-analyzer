@@ -41,6 +41,10 @@ Template.simpleSentiment.helpers({
     		colors: ["#5cb85c", "#5bc0de", "#d9534f"]
     	});
 
+    	var num_positive = Session.get("sentiment_count")[0]
+    	var num_neutral = Session.get("sentiment_count")[1]
+    	var num_negative = Session.get("sentiment_count")[2]
+
         return {
             credits: false,
             chart: {
@@ -71,13 +75,13 @@ Template.simpleSentiment.helpers({
                 name: 'Sentiment',
                 data: [{
                     name: 'Positive',
-                    y: 4
+                    y: num_positive
                 }, {
                     name: 'Neutral',
-                    y: 20
+                    y: num_neutral
                 }, {
                     name: 'Negative',
-                    y: 13                	
+                    y: num_negative                	
                 }]
             }]
         };
@@ -100,6 +104,7 @@ Template.simpleSentiment.events({
 
 		Meteor.call('getTwitterSearch', query, function(err, response) {
 			Session.set('tweetList', response.array);
+			Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative])
 		});
 
     },
