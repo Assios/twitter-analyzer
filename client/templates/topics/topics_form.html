@@ -1,0 +1,40 @@
+<template name="topicsForm">
+  <div class="row">
+    <div class="col-md-3">
+
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span>Number of topics</span>
+      </span>
+      <input class="form-control number-of-topics-input" type="number" value="5" min="2" max="100"/>
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span>Number of passes</span>
+      </span>
+      <input class="form-control number-of-passes-input" type="number" value="1" min="1" max="100"/>
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span>File name</span>
+      </span>
+      <select id="fileName" class="form-control">
+          <option value="29jan_tweets">29jan_tweets.json</option>
+          <option value="27jan_tweets">27jan_tweets.json</option>
+          <option value="superbowltweets">superbowltweets.json</option>
+      </select>
+    </div>
+
+    <button type="button" class="btn btn-default run-lda" aria-label="Left Align">
+        <span>LDA</span>
+    </button>
+
+    <button type="button" class="btn btn-default run-hdp" aria-label="Left Align">
+        <span>HDP</span>
+    </button>
+
+    </div>
+  </div>
+</template>

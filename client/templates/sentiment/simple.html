@@ -1,0 +1,71 @@
+<template name="simpleSentiment">
+
+  <div class="row">
+    <div class="col-md-3">
+
+		<div class="panel panel-default">
+			  <div class="panel-heading">Sentiment</div>
+			  <div class="panel-body">
+			    
+			    <div class="input-group">
+			      <span class="input-group-addon">
+			        <span>Text</span>
+			      </span>
+			      <input class="form-control sentiment-text" type="text"/>
+			    </div>
+
+		    <button type="button" class="btn btn-default run-sentiment" aria-label="Left Align">
+		        <span>ANALYZE</span>
+		    </button>
+
+
+		  	{{#if notEmpty simpleSentiment}}
+		    	Sentiment for {{currText}}: {{simpleSentiment}}
+		    {{/if}}
+
+			  </div>
+		</div>
+  	</div>
+
+    <div class="col-md-3">
+
+		<div class="panel panel-default">
+			  <div class="panel-heading">Search for a twitter query</div>
+			  <div class="panel-body">
+			    
+			    <div class="input-group">
+			      <span class="input-group-addon">
+			        <span>Query</span>
+			      </span>
+			      <input class="form-control sentiment-tweets" type="text"/>
+			    </div>
+
+		    <button type="button" class="btn btn-default run-sentiment-tweets" aria-label="Left Align">
+		        <span>SEARCH AND ANALYZE</span>
+		    </button>
+
+			  </div>
+		</div>
+  	</div>
+
+    <div class="col-md-6">
+
+		<div class="panel panel-default">
+			  <div class="panel-heading">Tweets</div>
+			  <div class="panel-body">
+
+			   {{> highchartsHelper chartId="all_gender_ratio" chartWidth="100%" charHeight="100%" chartObject=genderRatio}}
+
+			  	<ul class="list-group">
+			  	{{#each twitterSearchList}}
+			  		<li class="list-group-item {{labelBasedOnSentiment sentiment}}"><a href="{{tweetUrlById _id}}" target="_blank">{{text}}</a></li>
+			  	{{/each}}
+			  	</ul>
+
+			  </div>
+		</div>
+  	</div>
+
+	</div>
+
+</template>

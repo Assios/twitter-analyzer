@@ -1,0 +1,22 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400);
+@import url(http://fonts.googleapis.com/css?family=Bitter:400);
+
+html,body {
+  height:100%;
+    background-size: cover;
+    color:#444;
+    font-family: 'Lato', sans-serif;
+}
+
+
+.container-fluid {
+	margin-top: 80px;
+}
+
+.lbl {
+	display: inline-block;
+}
+
+.input-group {
+	margin-bottom: 10px;
+}

@@ -1,0 +1,39 @@
+<template name="topics">
+
+{{ > topicsForm }}
+
+<br>
+
+
+{{#if processing}}
+    {{> spinner}}
+{{/if}}
+
+<br>
+
+ <div class="row">
+    <div class="col-md-3 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Topics LDA <i>{{lda_string}}</i></b></div>
+        <ul class="list-group">
+        {{#each lda_topics}}
+            <li class="list-group-item list-group-item-info">Topic #{{inc @index}}</li>
+            <li class="list-group-item">{{#each this}}  <div data-toggle="tooltip" title="{{percentage}}%" class="label label-default lbl">{{value}}</div>{{/each}}  </li>
+        {{/each}}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Topics HDP <i>{{hdp_string}}</i></b></div>
+        <ul class="list-group">
+        {{#each hdp_topics}}
+            <li class="list-group-item list-group-item-info">Topic #{{inc @index}}</li>
+            <li class="list-group-item">{{#each this}}  <div data-toggle="tooltip" title="{{percentage}}%" class="label label-default lbl">{{value}}</div>{{/each}}  </li>
+        {{/each}}
+        </ul>
+      </div>
+    </div>
+</div>
+</template>
