@@ -100,8 +100,9 @@ Template.simpleSentiment.helpers({
 Template.simpleSentiment.events({
     'click .run-sentiment': function() {
         var text = $(".sentiment-text").val();
+        var classifier = $("#classifier-text").val();
 
-		Meteor.call('getSimpleSentiment', text, function(err, response) {
+		Meteor.call('getSimpleSentiment', text, classifier, function(err, response) {
 			Session.set('currText', text);
 			Session.set('simpleSentiment', response.sentiment);
 		});
@@ -111,6 +112,7 @@ Template.simpleSentiment.events({
     'click .run-sentiment-tweets': function() {
         var query = $(".sentiment-tweets").val();
         var count = $(".count-filter").val();
+        var classifier = $("#classifier-search").val();
 
         if (!($('input.link-filter').is(':checked'))) {
             query = query + " -filter:links";
@@ -124,7 +126,7 @@ Template.simpleSentiment.events({
             query = query + " -filter:replies";
         }
 
-		Meteor.call('getTwitterSearch', query, count, function(err, response) {
+		Meteor.call('getTwitterSearch', query, count, classifier, function(err, response) {
 			Session.set('tweetList', response.array);
 			Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative])
 		});

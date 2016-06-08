@@ -34,16 +34,16 @@ Meteor.methods({
         return JSON.parse(result.content);
     },
 
-    getSimpleSentiment: function(text) {
-        var url = URL_PREFIX + "/sentiment?text=" + text;
+    getSimpleSentiment: function(text, classifier) {
+        var url = URL_PREFIX + "/sentiment?text=" + text + "&classifier=" + classifier;
 
         var result = Meteor.http.get(url);
 
         return JSON.parse(result.content);
     },
 
-    getTwitterSearch: function(query, count) {
-        var url = URL_PREFIX + "/sentiment/search?query=" + query + "&count=" + count;
+    getTwitterSearch: function(query, count, classifier) {
+        var url = URL_PREFIX + "/sentiment/search?query=" + query + "&count=" + count + "&classifier=" + classifier;
 
         var result = Meteor.http.get(url);
 

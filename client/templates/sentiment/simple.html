@@ -4,20 +4,31 @@
     <div class="col-md-3">
 
 		<div class="panel panel-default">
-			  <div class="panel-heading">Sentiment</div>
+			  <div class="panel-heading">Predict sentiment of text</div>
 			  <div class="panel-body">
-			    
-			    <div class="input-group">
-			      <span class="input-group-addon">
-			        <span>Text</span>
-			      </span>
-			      <input class="form-control sentiment-text" type="text"/>
-			    </div>
+
+		    <div class="input-group">
+		    	<span class="input-group-addon">Classifier</span>
+					<select id="classifier-text" class="form-control">
+						<option value="maxent">MaxEnt</option>
+						<option value="bernoulli">Bernoulli</option>
+						<option value="multinomialnb">Multinomial naive Bayes</option>
+						<option value="linear">Linear</option>
+						<option value="sgd">Stochastic Gradient Descent</option>
+					</select>
+			</div>
+
+		    <div class="input-group">
+		      <span class="input-group-addon">
+		        <span>Text</span>
+		      </span>
+		      <input class="form-control sentiment-text" type="text"/>
+		    </div>
 
 		    <button type="button" class="btn btn-default run-sentiment" aria-label="Left Align">
 		        <span>Predict sentiment</span>
 		    </button>
-		    <br>
+
 
 		  	{{#if notEmpty simpleSentiment}}
 		  	<div class="simple-sentiment-text">
@@ -32,8 +43,19 @@
     <div class="col-md-3">
 
 		<div class="panel panel-default">
-		  <div class="panel-heading">Search for a twitter query</div>
+		  <div class="panel-heading">Search for tweets</div>
 		  <div class="panel-body">
+
+		    <div class="input-group">
+		    	<span class="input-group-addon">Classifier</span>
+					<select id="classifier-search" class="form-control">
+						<option value="maxent">MaxEnt</option>
+						<option value="bernoulli">Bernoulli</option>
+						<option value="multinomialnb">Multinomial naive Bayes</option>
+						<option value="linear">Linear</option>
+						<option value="sgd">Stochastic Gradient Descent</option>
+					</select>
+			</div>
 			    
 		    <div class="input-group">
 		      <span class="input-group-addon">
