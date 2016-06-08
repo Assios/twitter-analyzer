@@ -42,8 +42,8 @@ Meteor.methods({
         return JSON.parse(result.content);
     },
 
-    getTwitterSearch: function(query) {
-        var url = URL_PREFIX + "/sentiment/search?query=" + query;
+    getTwitterSearch: function(query, count) {
+        var url = URL_PREFIX + "/sentiment/search?query=" + query + "&count=" + count;
 
         var result = Meteor.http.get(url);
 

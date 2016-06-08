@@ -15,33 +15,52 @@
 			    </div>
 
 		    <button type="button" class="btn btn-default run-sentiment" aria-label="Left Align">
-		        <span>ANALYZE</span>
+		        <span>Predict sentiment</span>
 		    </button>
-
+		    <br>
 
 		  	{{#if notEmpty simpleSentiment}}
-		    	Sentiment for {{currText}}: {{simpleSentiment}}
+		  	<div class="simple-sentiment-text">
+		    	<h1>{{simpleSentiment}} <i class="fa {{sentimentSmiley simpleSentiment}}"></i></h1>
+		    </div>
 		    {{/if}}
 
-			  </div>
+			</div>
 		</div>
   	</div>
 
     <div class="col-md-3">
 
 		<div class="panel panel-default">
-			  <div class="panel-heading">Search for a twitter query</div>
-			  <div class="panel-body">
+		  <div class="panel-heading">Search for a twitter query</div>
+		  <div class="panel-body">
 			    
-			    <div class="input-group">
-			      <span class="input-group-addon">
-			        <span>Query</span>
-			      </span>
-			      <input class="form-control sentiment-tweets" type="text"/>
-			    </div>
+		    <div class="input-group">
+		      <span class="input-group-addon">
+		        <span>Query</span>
+		      </span>
+		      <input class="form-control sentiment-tweets" type="text"/>
+		    </div>
+
+		    <div class="input-group">
+		      <span class="input-group-addon">
+		        <span>Count</span>
+		      </span>
+		      <input class="form-control count-filter" type="number" value="50" min="1" max="100"/>
+		    </div>
+
+			<div class="input-group">
+				<span class="input-group-addon">
+					<span>Include</span>
+				</span>
+					<label class="checkbox-inline"><input type="checkbox" class="link-filter" value="" checked>Links</label>
+					<label class="checkbox-inline"><input type="checkbox" class="retweet-filter" value="" checked>Retweets</label>
+					<label class="checkbox-inline"><input type="checkbox" class="reply-filter" value="" checked>Replies</label>
+			</div>
+
 
 		    <button type="button" class="btn btn-default run-sentiment-tweets" aria-label="Left Align">
-		        <span>SEARCH AND ANALYZE</span>
+		        <span>Search</span>
 		    </button>
 
 			  </div>

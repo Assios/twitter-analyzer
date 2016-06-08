@@ -20,3 +20,15 @@ html,body {
 .input-group {
 	margin-bottom: 10px;
 }
+
+.run-sentiment-tweets {
+	margin-top: 10px;
+}
+
+.checkbox-inline {
+	margin-left: 20px;
+}
+
+.simple-sentiment-text {
+	margin-top: 20px;
+}

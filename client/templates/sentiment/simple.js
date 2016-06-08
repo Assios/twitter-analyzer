@@ -10,6 +10,15 @@ Template.simpleSentiment.helpers({
 		return Session.get('simpleSentiment');
 	},
 
+    sentimentSmiley: function(sentiment) {
+        if (sentiment=="positive")
+            return "fa-smile-o";
+        else if (sentiment=="neutral")
+            return "fa-meh-o";
+        else if (sentiment=="negative")
+            return "fa-frown-o";
+    },
+
 	currText: function() {
 		return Session.get('currText');
 	},
@@ -101,8 +110,21 @@ Template.simpleSentiment.events({
 
     'click .run-sentiment-tweets': function() {
         var query = $(".sentiment-tweets").val();
+        var count = $(".count-filter").val();
 
-		Meteor.call('getTwitterSearch', query, function(err, response) {
+        if (!($('input.link-filter').is(':checked'))) {
+            query = query + " -filter:links";
+        }
+
+        if (!($('input.retweet-filter').is(':checked'))) {
+            query = query + " -filter:retweets";
+        }
+
+        if (!($('input.reply-filter').is(':checked'))) {
+            query = query + " -filter:replies";
+        }
+
+		Meteor.call('getTwitterSearch', query, count, function(err, response) {
 			Session.set('tweetList', response.array);
 			Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative])
 		});
