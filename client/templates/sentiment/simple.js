@@ -113,6 +113,7 @@ Template.simpleSentiment.events({
         var query = $(".sentiment-tweets").val();
         var count = $(".count-filter").val();
         var classifier = $("#classifier-search").val();
+        var result_type = $('input:radio[name=result_type]:checked').val();
 
         if (!($('input.link-filter').is(':checked'))) {
             query = query + " -filter:links";
@@ -126,7 +127,7 @@ Template.simpleSentiment.events({
             query = query + " -filter:replies";
         }
 
-		Meteor.call('getTwitterSearch', query, count, classifier, function(err, response) {
+		Meteor.call('getTwitterSearch', query, count, classifier, result_type, function(err, response) {
 			Session.set('tweetList', response.array);
 			Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative])
 		});

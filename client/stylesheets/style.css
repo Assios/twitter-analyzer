@@ -32,3 +32,13 @@ html,body {
 .simple-sentiment-text {
 	margin-top: 20px;
 }
+
+.radio-group {
+	margin-left: 20px;
+}
+
+.datediff {
+	font-style: italic;
+	font-size: 12px;
+	margin-left: 10px;
+}
