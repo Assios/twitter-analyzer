@@ -2,6 +2,14 @@ var URL_PREFIX = "http://localhost:8888"
 
 Meteor.methods({
 
+    getTopicMixture: function(text, topic_model) {
+        var url = URL_PREFIX + "/topic/mixture?text=" + text;
+
+        var result = Meteor.http.get(url);
+
+        return JSON.parse(result.content);
+    },
+
     getLdaTopics: function(passes, num_topics, filename) {
         var url = URL_PREFIX + "/lda?passes=" + passes + "&num_topics=" + num_topics + "&json=" + filename;
 

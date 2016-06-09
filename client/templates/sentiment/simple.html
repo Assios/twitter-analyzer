@@ -121,7 +121,7 @@
 			  <div class="panel-heading">Tweets</div>
 			  <div class="panel-body">
 
-			   {{> highchartsHelper chartId="all_gender_ratio" chartWidth="100%" charHeight="100%" chartObject=genderRatio}}
+			   {{> highchartsHelper chartId="sentiment_pie_chart" chartWidth="100%" charHeight="100%" chartObject=sentimentPieChart}}
 
 			  	<ul class="list-group">
 			  	{{#each twitterSearchList}}
@@ -133,6 +133,40 @@
 		</div>
   	</div>
 
+	</div>
+
+	<div class="row">
+	    <div class="col-md-6">
+
+			<div class="panel panel-default">
+				  <div class="panel-heading">Get topic distribution for text</div>
+				  <div class="panel-body">
+
+			    <div class="input-group">
+			    	<span class="input-group-addon">Topic Model</span>
+						<select id="topic-model-select" class="form-control">
+							<option value="author">Author-topic model</option>
+						</select>
+				</div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon">
+			        <span>Text</span>
+			      </span>
+			      <input class="form-control topic-text" type="text"/>
+			    </div>
+
+			    <button type="button" class="btn btn-default run-topic-mixture" aria-label="Left Align">
+			        <span>Get topic mixture</span>
+			    </button>
+
+			    {{#if notEmpty topicText}}
+			   		{{> highchartsHelper chartId="topic_mixture" chartWidth="100%" charHeight="100%" chartObject=topicMixture}}
+			   	{{/if}}
+
+				</div>
+			</div>
+	  	</div>
 	</div>
 
 </template>

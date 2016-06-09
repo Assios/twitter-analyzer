@@ -1,6 +1,7 @@
 Template.simpleSentiment.onRendered(function() {
 
 	Session.set('tweetList', []);
+    Session.set("topicText", "");
 
 });
 
@@ -9,6 +10,10 @@ Template.simpleSentiment.helpers({
 	simpleSentiment: function() {
 		return Session.get('simpleSentiment');
 	},
+
+    topicText: function() {
+        return Session.get("topicText");
+    },
 
     sentimentSmiley: function(sentiment) {
         if (sentiment=="positive")
@@ -45,7 +50,28 @@ Template.simpleSentiment.helpers({
 		return "http://twitter.com/statuses/" + _id;
 	},
 
-    genderRatio: function() {
+    topicMixture: function() {
+
+    var chart_data = Session.get("topic_chart_data");
+    var categ = Session.get('topicCategories');
+    var topicMix = Session.get('topicMixture');
+
+    return {
+        chart: {
+            type: 'column'
+        },
+
+        xAxis: {
+            categories: categ
+        },
+
+        series: [{
+            data: topicMix
+        }]
+    }
+    },
+
+    sentimentPieChart: function() {
     	Highcharts.setOptions({
     		colors: ["#5cb85c", "#5bc0de", "#d9534f"]
     	});
@@ -98,6 +124,18 @@ Template.simpleSentiment.helpers({
 });
 
 Template.simpleSentiment.events({
+    'click .run-topic-mixture': function() {
+        var text = $(".topic-text").val();
+        var topic_model = $("#topic-model-select").val();
+
+        Meteor.call('getTopicMixture', text, topic_model, function(err, response) {
+            Session.set('topicText', text);
+            Session.set('topicCategories', response.categories);
+            Session.set('topicMixture', response.topic_mixture);
+        });
+
+    },
+
     'click .run-sentiment': function() {
         var text = $(".sentiment-text").val();
         var classifier = $("#classifier-text").val();
