@@ -1,11 +1,13 @@
-Template.simpleSentiment.onRendered(function() {
+Template.sentiment.onRendered(function() {
 
 	Session.set('tweetList', []);
     Session.set("topicText", "");
+    Session.set("tweetTopicMixture", []);
+    Session.set("tweetTopicText", "");
 
 });
 
-Template.simpleSentiment.helpers({
+Template.sentiment.helpers({
 
 	simpleSentiment: function() {
 		return Session.get('simpleSentiment');
@@ -13,6 +15,10 @@ Template.simpleSentiment.helpers({
 
     topicText: function() {
         return Session.get("topicText");
+    },
+
+    tweetTopicText: function() {
+        return Session.get("tweetTopicText");
     },
 
     sentimentSmiley: function(sentiment) {
@@ -36,6 +42,10 @@ Template.simpleSentiment.helpers({
 		return Session.get('tweetList');
 	},
 
+    twitterTopicList: function() {
+        return Session.get("tweetTopicMixture");
+    },
+
 	labelBasedOnSentiment: function(s) {
 		console.log(s);
 		if (s=="positive")
@@ -50,23 +60,64 @@ Template.simpleSentiment.helpers({
 		return "http://twitter.com/statuses/" + _id;
 	},
 
+    tweetTopicMixture: function() {
+      var categ = Session.get("tweetTopicCategories");
+      var topicMix = Session.get("tweetTopicMixture");
+      var subtitle_text = "Average topic mixture over tweets retrieved by query: " + Session.get("tweetTopicText");
+
+      return {
+        credits: false,
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Topic distribution',
+        },
+        subtitle: {
+            text: subtitle_text
+        },
+        xAxis: {
+            categories: categ,
+        },
+
+        yAxis: {
+
+        },
+
+        series: [{
+            showInLegend: false,
+            name: "fraction",
+            data: topicMix,
+        }]
+    }
+    },
+
     topicMixture: function() {
 
     var chart_data = Session.get("topic_chart_data");
     var categ = Session.get('topicCategories');
     var topicMix = Session.get('topicMixture');
+    var subtitle_text = Session.get("topicText");
 
     return {
+        credits: false,
         chart: {
             type: 'column'
         },
-
+        title: {
+            text: 'Topic distribution',
+        },
+        subtitle: {
+            text: subtitle_text
+        },
         xAxis: {
-            categories: categ
+            categories: categ,
         },
 
         series: [{
-            data: topicMix
+            showInLegend: false,
+            name: "fraction",
+            data: topicMix,
         }]
     }
     },
@@ -123,7 +174,7 @@ Template.simpleSentiment.helpers({
 	},
 });
 
-Template.simpleSentiment.events({
+Template.sentiment.events({
     'click .run-topic-mixture': function() {
         var text = $(".topic-text").val();
         var topic_model = $("#topic-model-select").val();
@@ -152,6 +203,7 @@ Template.simpleSentiment.events({
         var count = $(".count-filter").val();
         var classifier = $("#classifier-search").val();
         var result_type = $('input:radio[name=result_type]:checked').val();
+        var analyze_type = $('input:radio[name=analyze_type]:checked').val();
 
         if (!($('input.link-filter').is(':checked'))) {
             query = query + " -filter:links";
@@ -165,10 +217,25 @@ Template.simpleSentiment.events({
             query = query + " -filter:replies";
         }
 
-		Meteor.call('getTwitterSearch', query, count, classifier, result_type, function(err, response) {
-			Session.set('tweetList', response.array);
-			Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative])
-		});
-
+        if (analyze_type=="sentiment") {
+    		Meteor.call('getTwitterSearch', query, count, classifier, result_type, function(err, response) {
+    			Session.set('tweetList', response.array);
+    			Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative])
+    		});
+        } else if (analyze_type=="topic") {
+            Meteor.call('getTopicTweetMixture', query, count, result_type, function(err, response) {
+                Session.set("tweetTopicText", query);
+                Session.set("tweetTopicMixture", response.topic_mixture);
+                Session.set("tweetTopicCategories", response.categories);
+            });            
+        } else if (analyze_type=="both") {
+            Meteor.call('getSentimentAndTopic', query, count, classifier, result_type, function(err, response) {
+                Session.set('tweetList', response.array);
+                Session.set('sentiment_count', [response.num_positive, response.num_neutral, response.num_negative]);
+                Session.set("tweetTopicText", query);
+                Session.set("tweetTopicMixture", response.topic_mixture);
+                Session.set("tweetTopicCategories", response.categories);
+            });            
+        }
     },
 });

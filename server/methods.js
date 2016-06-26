@@ -10,6 +10,28 @@ Meteor.methods({
         return JSON.parse(result.content);
     },
 
+    getTopicTweetMixture: function(query, count, result_type) {
+        var url = URL_PREFIX + "/topic/search?query=" + query + "&count=" + count + "&result_type=" + result_type;
+
+        var result = Meteor.http.get(url);
+
+        console.log("TWEET TOPIC MIXTURE");
+        console.log(result);
+
+        return JSON.parse(result.content);
+    },
+
+    getSentimentAndTopic: function(query, count, classifier, result_type) {
+        var url = URL_PREFIX + "/topsent/search?query=" + query + "&count=" + count + "&result_type=" + result_type + "&classifier=" + classifier;
+
+        var result = Meteor.http.get(url);
+
+        console.log("TWEET TOPIC MIXTURE AND SENTIMENT");
+        console.log(result);
+
+        return JSON.parse(result.content);
+    },
+
     getLdaTopics: function(passes, num_topics, filename) {
         var url = URL_PREFIX + "/lda?passes=" + passes + "&num_topics=" + num_topics + "&json=" + filename;
 

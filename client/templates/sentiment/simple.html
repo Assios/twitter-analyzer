@@ -1,4 +1,4 @@
-<template name="simpleSentiment">
+<template name="sentiment">
 
   <div class="row">
     <div class="col-md-3">
@@ -46,6 +46,32 @@
 		  <div class="panel-heading">Search for tweets</div>
 		  <div class="panel-body">
 
+			<div class="input-group">
+				<span class="input-group-addon">
+					<span>Analyze</span>
+				</span>
+			  <div class="radio-group">
+			    <div class="radio-inline">
+			      <label>
+			        <input type="radio" name="analyze_type" id="topicRadio" value="topic" class="radio-gender">
+			        Topic
+			      </label>
+			    </div>
+			    <div class="radio-inline">
+			      <label>
+			        <input type="radio" name="analyze_type" id="sentimentRadio" value="sentiment" class="radio-gender">
+			        Sentiment
+			      </label>
+			    </div>
+			    <div class="radio-inline">
+			      <label>
+			        <input type="radio" name="analyze_type" id="bothRadio" value="both" class="radio-gender" checked>
+			        Both
+			      </label>
+			    </div>
+			  </div>
+			</div>
+
 		    <div class="input-group">
 		    	<span class="input-group-addon">Classifier</span>
 					<select id="classifier-search" class="form-control">
@@ -54,6 +80,13 @@
 						<option value="multinomialnb">Multinomial naive Bayes</option>
 						<option value="linear">Linear</option>
 						<option value="sgd">Stochastic Gradient Descent</option>
+					</select>
+			</div>
+
+		    <div class="input-group">
+		    	<span class="input-group-addon">Topic Model</span>
+					<select id="topic-model-select" class="form-control">
+						<option value="author">Author-topic model (50 topics)</option>
 					</select>
 			</div>
 			    
@@ -75,9 +108,9 @@
 				<span class="input-group-addon">
 					<span>Include</span>
 				</span>
-					<label class="checkbox-inline"><input type="checkbox" class="link-filter" value="" checked>Links</label>
-					<label class="checkbox-inline"><input type="checkbox" class="retweet-filter" value="" checked>Retweets</label>
-					<label class="checkbox-inline"><input type="checkbox" class="reply-filter" value="" checked>Replies</label>
+					<label class="checkbox-inline"><input type="checkbox" class="link-filter" value="">Links</label>
+					<label class="checkbox-inline"><input type="checkbox" class="retweet-filter" value="">Retweets</label>
+					<label class="checkbox-inline"><input type="checkbox" class="reply-filter" value="">Replies</label>
 			</div>
 
 			<div class="input-group">
@@ -106,6 +139,9 @@
 			  </div>
 			</div>
 
+			<div class="input-group">
+					<label class="checkbox-inline"><input type="checkbox" class="update-model" value="">Update topic model with new tweets</label>
+			</div>
 
 		    <button type="button" class="btn btn-default run-sentiment-tweets" aria-label="Left Align">
 		        <span>Search</span>
@@ -122,6 +158,10 @@
 			  <div class="panel-body">
 
 			   {{> highchartsHelper chartId="sentiment_pie_chart" chartWidth="100%" charHeight="100%" chartObject=sentimentPieChart}}
+
+			    {{#if notEmpty tweetTopicText}}
+			   		{{> highchartsHelper chartId="tweet_topic_mixture" chartWidth="100%" charHeight="100%" chartObject=tweetTopicMixture}}
+			   	{{/if}}
 
 			  	<ul class="list-group">
 			  	{{#each twitterSearchList}}
@@ -145,7 +185,7 @@
 			    <div class="input-group">
 			    	<span class="input-group-addon">Topic Model</span>
 						<select id="topic-model-select" class="form-control">
-							<option value="author">Author-topic model</option>
+							<option value="author">Author-topic model (50 topics)</option>
 						</select>
 				</div>
 
@@ -161,7 +201,7 @@
 			    </button>
 
 			    {{#if notEmpty topicText}}
-			   		{{> highchartsHelper chartId="topic_mixture" chartWidth="100%" charHeight="100%" chartObject=topicMixture}}
+			   		{{> highchartsHelper chartId="topic_mixture_" chartWidth="100%" charHeight="100%" chartObject=topicMixture}}
 			   	{{/if}}
 
 				</div>
